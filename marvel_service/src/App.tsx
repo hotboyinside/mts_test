@@ -2,16 +2,15 @@ import './app.scss';
 import md5 from 'md5';
 
 function App() {
-const ts = Date.now().toString();  // Генерируем временную метку
-const publicKey = 'ваш_публичный_ключ_от_Marvel_API';
-const privateKey = 'ваш_приватный_ключ_от_Marvel_API';
+const ts = Date.now().toString();
+// const hash = md5(ts + privateKey + publicKey);
 
-const hash = md5(ts + privateKey + publicKey);
-
-console.log(hash);
+console.log(import.meta.env.VITE_PRIVATE_API_KEY);
 
   return (
     <>
+    <h1 className='title'>Hello world!</h1>
+    {/* <p>{process.env.REACT_APP_PRIVATE_API_KEY}</p> */}
     </>
   )
 }
