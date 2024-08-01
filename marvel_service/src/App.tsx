@@ -1,16 +1,17 @@
+import './normalize.scss'
 import './app.scss';
-import md5 from 'md5';
+
+import { Transport } from './transport/transport';
 
 function App() {
-const ts = Date.now().toString();
-// const hash = md5(ts + privateKey + publicKey);
+  const trans = Transport.getInstance();
+  const response = trans.getData()
 
-console.log(import.meta.env.VITE_PRIVATE_API_KEY);
+  response.then(data => {console.log(data)})
 
   return (
     <>
-    <h1 className='title'>Hello world!</h1>
-    {/* <p>{process.env.REACT_APP_PRIVATE_API_KEY}</p> */}
+      <h1 className='title'>Hello world!</h1>
     </>
   )
 }
