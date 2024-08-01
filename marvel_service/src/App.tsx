@@ -1,7 +1,10 @@
 import './normalize.scss'
 import './app.scss';
 
+import HomePage from './pages/HomePage/HomePage';
+
 import { Transport } from './transport/transport';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
   const trans = Transport.getInstance();
@@ -11,7 +14,9 @@ function App() {
 
   return (
     <>
-      <h1 className='title'>Hello world!</h1>
+      <Routes>
+        <Route path='/' element={<HomePage />}></Route>
+      </Routes>
     </>
   )
 }
