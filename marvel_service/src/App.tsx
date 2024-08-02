@@ -5,14 +5,14 @@ import HomePage from './pages/HomePage/HomePage';
 import HeroesPage from './pages/HeroesPage/HeroesPage';
 import ComicsPage from './pages/ComicsPage/ComicsPage';
 
-import { Transport } from './transport/transport';
+import { Service } from './service/service';
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
-  const trans = Transport.getInstance();
-  const response = trans.getData()
+  const service = Service.getInstance();
+  const response = service.getAllCharacters();
 
-  response.then(data => {console.log(data)})
+  response.then(data => {console.log(data)});
 
   return (
     <>

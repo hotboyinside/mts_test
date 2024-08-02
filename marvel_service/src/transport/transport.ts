@@ -18,6 +18,8 @@ export class Transport implements ITransport {
     access: string = 'public/';
     route: string = 'characters';
     keys: string = `?ts=${Date.now().toString()}&apikey=${import.meta.env.VITE_PUBLIC_API_KEY}&hash=${md5(Date.now().toString() + import.meta.env.VITE_PRIVATE_API_KEY + import.meta.env.VITE_PUBLIC_API_KEY)}`;
+    offset: number = 0;
+    limit: number = 20;
     private constructor() {}
   
     public static getInstance(): Transport {
@@ -27,9 +29,12 @@ export class Transport implements ITransport {
         return Transport.instance;
     }
 
-    public async getData<T>(route?: string): Promise<T> {
-        const currRoute: string = route ? route : this.route
-        const response = await fetch(this.protocol + this.hostName + this.versionPath + this.access + currRoute + this.keys);
+    public async getData<T>(route?: string, offset?: number, limit?: number): Promise<T> {
+        const currRoute: string = route ? route : this.route;
+        const currOffset: number = offset ? offset : this.offset;
+        const currLimit: number = limit ? limit : this.limit;
+
+        const response = await fetch(this.protocol + this.hostName + this.versionPath + this.access + currRoute + this.keys + `&offset=${currOffset}&limit=${currLimit}`);
         if (!response.ok) {
             throw new Error(`Error! status: ${response.status}`);
         }
