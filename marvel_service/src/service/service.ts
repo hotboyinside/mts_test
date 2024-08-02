@@ -16,7 +16,7 @@ interface MarvelCollection {
     items: MarvelItem[];
 }
 
-interface MarvelCharacter {
+export interface MarvelCharacter {
     id: number;
     name: string;
     description: string;
@@ -49,7 +49,7 @@ interface MarvelAPIResponse<T> {
 }
 
 interface IService {
-    getAllCharacters(): Promise<unknown>
+    getCharacters(offset: number, limit: number): Promise<MarvelAPIResponse<MarvelCharacter>>
 }
 
 const trans = Transport.getInstance();
@@ -57,7 +57,7 @@ const trans = Transport.getInstance();
 export class Service implements IService {
     private static instance: Service;
 
-    constructor() { };
+    constructor() {};
 
     public static getInstance(): Service {
         if (!Service.instance) {
@@ -67,21 +67,7 @@ export class Service implements IService {
         return Service.instance;
     }
 
-    public async getAllCharacters(): Promise<unknown> {
-        let offset = 0;
-        const limit = 20;
-        let allCharacters: MarvelCharacter[] = [];
-
-        while (true) {
-            const response: MarvelAPIResponse<MarvelCharacter> = await trans.getData('characters', offset, limit)
-            allCharacters = allCharacters.concat(response.data.results);
-            offset += limit;
-            console.log(allCharacters)
-
-            if (offset >= response.data.total) {
-                break;
-            }
-        }
-        return allCharacters;
+    public async getCharacters(offset: number = 0, limit: number = 20): Promise<MarvelAPIResponse<MarvelCharacter>> {
+        return await trans.getData('characters', offset, limit);
     }
 }
